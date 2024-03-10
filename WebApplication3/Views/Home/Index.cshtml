@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WebApplication3.Models.Article
+@{
     ViewData["Title"] = "Home Page";
     Layout = null;
 }
@@ -23,11 +24,12 @@
 </head>
 <body>
     <header>
+        <a asp-controller="Articles" asp-action="Index">Index</a>
         <section class="header_logo container">
             <div class="left">
-                <a class="home_icon" href="index.html"><i class="fa-solid fa-house"></i></a>
+                <a class="home_icon" href="index.html" title="Home"><i class="fa-solid fa-house"></i></a>
                 <div class="container_search">
-                    <div class="icon_search">
+                    <div class="icon_search" title="Search">
                         <i class="search fa-solid fa-magnifying-glass"></i>
                     </div>
                     <div class="input_search">

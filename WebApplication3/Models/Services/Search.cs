@@ -11,6 +11,10 @@ namespace WebApplication3.Models.Services
         {
             _context = context;
         }
+        
+        public IQueryable<Article> Articles { get; set; }
+        public string TitleSortOrder { get; set; }
+        public string AuthorSortOrder { get; set; }
 
         public IQueryable<Article> GetAll()
         {

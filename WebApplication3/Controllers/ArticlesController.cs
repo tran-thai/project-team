@@ -46,9 +46,12 @@ namespace WebApplication3.Controllers
             return View(listings);
         }*/
 
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string orderBy="", string sortOrder = "")
         {
             var applicationDbContext = _search.GetAll();
+
+            _search.TitleSortOrder = string.IsNullOrEmpty(orderBy) ? "title_desc" : "";
+            _search.AuthorSortOrder = orderBy == "author" ? "author_desc" : "";
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -64,9 +67,23 @@ namespace WebApplication3.Controllers
                     applicationDbContext = applicationDbContext.Where(a => a.Title.Contains(searchString));
                 }
             }
-
-            var listings = applicationDbContext.ToList();
-
+            switch (orderBy)
+            {
+                case "title_desc":
+                    applicationDbContext = applicationDbContext.OrderByDescending(a => a.Title);
+                    break;
+                case "author_desc":
+                    applicationDbContext = applicationDbContext.OrderByDescending(a => a.AuthorId);
+                    break;
+                case "author":
+                    applicationDbContext = applicationDbContext.OrderBy(a => a.AuthorId);
+                    break;
+                default:
+                    applicationDbContext = applicationDbContext.OrderBy(a => a.Title);
+                    break;
+            }
+                    //var listings = applicationDbContext.ToList();
+                    var listings = await applicationDbContext.ToListAsync();
             return View(listings);
         }
 
